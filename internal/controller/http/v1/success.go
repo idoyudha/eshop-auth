@@ -1,6 +1,10 @@
 package v1
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/google/uuid"
+)
 
 type restSuccess struct {
 	Code    int    `json:"code"`
@@ -25,8 +29,8 @@ func newGetSuccess(data authResponse) restSuccess {
 }
 
 type authResponse struct {
-	UserID string `json:"user_id"`
-	Role   string `json:"role"`
+	UserID uuid.UUID `json:"user_id"`
+	Role   string    `json:"role"`
 }
 
 func newUpdateSuccess(data any) restSuccess {

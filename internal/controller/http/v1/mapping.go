@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"github.com/google/uuid"
 	"github.com/idoyudha/eshop-auth/internal/entity"
 )
 
@@ -11,7 +12,7 @@ func authUserToAuthResponse(authUser entity.AuthUser) authResponse {
 	for _, attr := range authUser.Attributes {
 		switch *attr.Name {
 		case "sub":
-			response.UserID = *attr.Value
+			response.UserID = uuid.MustParse(*attr.Value)
 		case "custom:role":
 			response.Role = *attr.Value
 		}
