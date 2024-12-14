@@ -7,12 +7,18 @@ import (
 	"github.com/idoyudha/eshop-auth/pkg/cognito"
 )
 
-type AuthCognito struct {
-	c cognito.CognitoClient
+type AuthCognitoWebAPI struct {
+	*cognito.CognitoClient
 }
 
-func (a *AuthCognito) GetUser(ctx context.Context, params *cognitoidentityprovider.GetUserInput) (*cognitoidentityprovider.GetUserOutput, error) {
-	user, err := a.c.Client.GetUser(ctx, params)
+func NewAuthCognitoWebAPI(client *cognito.CognitoClient) *AuthCognitoWebAPI {
+	return &AuthCognitoWebAPI{
+		client,
+	}
+}
+
+func (a *AuthCognitoWebAPI) GetUser(ctx context.Context, params *cognitoidentityprovider.GetUserInput) (*cognitoidentityprovider.GetUserOutput, error) {
+	user, err := a.Client.GetUser(ctx, params)
 	if err != nil {
 		return nil, err
 	}
