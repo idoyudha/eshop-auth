@@ -22,7 +22,7 @@ func newAuthUserRoutes(
 
 	h := handler.Group("/auth")
 	{
-		h.GET(":token", routes.getUserAuth)
+		h.GET("/:token", routes.getUserAuth)
 	}
 }
 
@@ -35,5 +35,5 @@ func (r *authUserRoutes) getUserAuth(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, newGetSuccess(authUser))
+	ctx.JSON(http.StatusOK, newGetSuccess(authUserToAuthResponse(authUser)))
 }

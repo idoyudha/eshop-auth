@@ -16,12 +16,17 @@ func newCreateSuccess(data any) restSuccess {
 	}
 }
 
-func newGetSuccess(data any) restSuccess {
+func newGetSuccess(data authResponse) restSuccess {
 	return restSuccess{
 		Code:    http.StatusOK,
 		Data:    data,
 		Message: "success get",
 	}
+}
+
+type authResponse struct {
+	UserID string `json:"user_id"`
+	Role   string `json:"role"`
 }
 
 func newUpdateSuccess(data any) restSuccess {
