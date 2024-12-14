@@ -1,0 +1,9 @@
+app:
+  name: 'eshop-auth'
+  version: '1.0.0'
+
+http:
+  port: '2003'
+
+logger:
+  log_level: 'debug'
