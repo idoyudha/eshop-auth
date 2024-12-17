@@ -13,8 +13,8 @@ func NewRouter(
 	uca usecase.AuthUser,
 	l logger.Interface,
 ) {
-	handler.Use(gin.Recovery())
-	handler.Use(gin.Logger())
+	// handler.Use(gin.Recovery())
+	// handler.Use(gin.Logger())
 
 	handler.GET("/health", func(c *gin.Context) {
 		c.Status(http.StatusOK)
