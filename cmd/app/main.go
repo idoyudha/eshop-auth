@@ -1,7 +1,17 @@
 package main
 
-import "log"
+import (
+	"log"
+
+	"github.com/idoyudha/eshop-auth/config"
+	"github.com/idoyudha/eshop-auth/internal/app"
+)
 
 func main() {
-	log.Println("Hello World! Eshop Auth")
+	cfg, err := config.NewConfig()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	app.Run(cfg)
 }
