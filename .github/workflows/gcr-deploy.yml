@@ -39,17 +39,17 @@ jobs:
     # Configure docker to use gcloud as a credential helper
     - name: Docker auth configure
       run: |
-        gcloud auth configure-docker asia.gcr.io --quiet
+        gcloud auth configure-docker ${{ vars.GCR_REGION }} --quiet
 
     # Build the Docker image
     - name: Build
       run: |
         docker build . \
-          -t "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
-          -t "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest"
+          -t "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}" \
+          -t "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:latest"
       
     # Push the Docker image to Google Container Registry
     - name: Push
       run: |
-        docker push "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
-        docker push "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest"
+        docker push "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}"
+        docker push "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:latest"
