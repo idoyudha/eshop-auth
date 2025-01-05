@@ -27,6 +27,7 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
         token_format: 'access_token'
+        service_account: 'github-actions@${{ env.PROJECT_ID }}.iam.gserviceaccount.com'
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK
@@ -35,20 +36,20 @@ jobs:
         project_id: ${{ env.PROJECT_ID }}
         install_components: 'docker-credential-gcr'
 
-    # Configure docker to use gcloud as a credential helper
+    # Configure docker auth
     - name: Docker auth configure
       run: |
-        gcloud auth configure-docker --quiet
+        gcloud auth configure-docker ${{ env.GCR_REGION }} --quiet
 
     # Build the Docker image
     - name: Build
       run: |
         docker build . \
-          -t "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}" \
-          -t "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:latest"
+          -t "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" \
+          -t "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest"
       
     # Push the Docker image to Google Container Registry
     - name: Push
       run: |
-        docker push "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:${{ github.sha }}"
-        docker push "${{ vars.GCR_REGION }}/${{ vars.PROJECT_ID }}/${{ vars.IMAGE_NAME }}:latest"
+        docker push "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        docker push "${{ env.GCR_REGION }}/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest"
