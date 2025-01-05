@@ -30,6 +30,12 @@ jobs:
       with:
         project_id: ${{ env.PROJECT_ID }}
 
+    # Enable required APIs
+    - name: Enable APIs
+      run: |
+        gcloud services enable containerregistry.googleapis.com
+        gcloud services enable artifactregistry.googleapis.com
+
     # Configure docker to use gcloud as a credential helper
     - name: Docker auth configure
       run: |
