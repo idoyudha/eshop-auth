@@ -13,6 +13,9 @@ jobs:
   build-and-deploy:
     name: Build and Deploy to GKE
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     steps:
     - name: Checkout code
@@ -23,23 +26,19 @@ jobs:
       uses: 'google-github-actions/auth@v2'
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
+        token_format: 'access_token'
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK
       uses: 'google-github-actions/setup-gcloud@v2'
       with:
         project_id: ${{ env.PROJECT_ID }}
-
-    # Enable required APIs
-    - name: Enable APIs
-      run: |
-        gcloud services enable containerregistry.googleapis.com
-        gcloud services enable artifactregistry.googleapis.com
+        install_components: 'docker-credential-gcr'
 
     # Configure docker to use gcloud as a credential helper
     - name: Docker auth configure
       run: |
-        gcloud auth configure-docker ${{ vars.GCR_REGION }} --quiet
+        gcloud auth configure-docker --quiet
 
     # Build the Docker image
     - name: Build
