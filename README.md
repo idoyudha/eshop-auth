@@ -5,25 +5,26 @@ Part of [eshop](https://github.com/idoyudha/eshop) Microservices Architecture.
 This service handles user authorization from all internal backend services that will redirect to [AWS Cognito](https://aws.amazon.com/cognito/). All of customer identity and access management (CIAM) are handled by [AWS Cognito](https://aws.amazon.com/cognito/).
 
 ## Architecture
+```
 eshop-auth
 ├── .github
-|   |── workflows
+│   └── workflows
 ├── cmd
-│   ├── app
-|── config
-|── internal   
-|   |── app
-|   |── controller
-|       |── http
-|           |── v1
-|   |── entity
-|   |── usecase
-|       |── webapi
+│   └── app
+│── config
+│── internal   
+│   └── app
+│   └── controller
+│       └── http
+│           └── v1
+│   └── entity
+│   └── usecase
+│       └── webapi
 └── pkg
-    |── cognito
-    |── httpserver
-    |── logger
-
+    │── cognito
+    │── httpserver
+    └── logger
+```
 
 ## Tech Stack
 - Backend: Go
