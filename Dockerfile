@@ -10,7 +10,7 @@ COPY --from=modules /go/pkg /go/pkg
 COPY . /app
 WORKDIR /app
 # Build the application with optimization flags
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o main ./cmd/app
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/main ./cmd/app
 
 # Step 3: Final for production
 FROM alpine:3.19 as production
@@ -21,8 +21,11 @@ RUN apk --no-cache add ca-certificates tzdata && \
 # Create a non-root user
 RUN adduser -D -g '' appuser
 
+# Create app directory and set permissions
+RUN mkdir /app && chown appuser:appuser /app
+
 # Copy the binary from builder
-COPY --from=builder /app/main /app/main
+COPY --from=builder /go/bin/main /app/
 
 # Use the non-root user
 USER appuser
@@ -31,4 +34,4 @@ USER appuser
 WORKDIR /app
 
 # Command to run the application
-ENTRYPOINT ["/app/main"]
+CMD ["./main"]
