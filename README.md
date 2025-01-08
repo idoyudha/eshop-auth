@@ -8,22 +8,22 @@ This service handles user authorization from all internal backend services that 
 ```
 eshop-auth
 ├── .github
-│   └── workflows
+│   └── workflows   # github workflows to automatically test, build, and push
 ├── cmd
-│   └── app
-│── config
+│   └── app         # configuration and log initialization
+│── config          # configuration
 │── internal   
-│   └── app
-│   └── controller
-│       └── http
-│           └── v1
-│   └── entity
-│   └── usecase
-│       └── webapi
+│   └── app         # one run function in the `app.go`
+│   └── controller  # serve handler layer
+│       └── http    
+│           └── v1  # rest http
+│   └── entity      # entities of business logic (models) can be used in any layer
+│   └── usecase     # business logic
+│       └── webapi  # API that business logic works with
 └── pkg
-    │── cognito
-    │── httpserver
-    └── logger
+    │── cognito     # initialize aws cognito
+    │── httpserver  # initialize httpserver
+    └── logger      # initialize logger
 ```
 
 ## Tech Stack
