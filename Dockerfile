@@ -9,26 +9,10 @@ FROM golang:1.23.4 as builder
 COPY --from=modules /go/pkg /go/pkg
 COPY . /app
 WORKDIR /app
-# Build the application with optimization flags
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o main ./cmd/app
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /bin/app ./cmd/app
 
-# Step 3: Final for production
-FROM alpine:3.19 as production
-# Add CA certificates and timezone data
-RUN apk --no-cache add ca-certificates tzdata && \
-    update-ca-certificates
-
-# Create a non-root user
-RUN adduser -D -g '' appuser
-
-# Copy the binary from builder
-COPY --from=builder /app/main /app/main
-
-# Use the non-root user
-USER appuser
-
-# Set the working directory
-WORKDIR /app
-
-# Command to run the application
-ENTRYPOINT ["/app/main"]
+# Step 3: Final
+FROM scratch
+COPY --from=builder /app/config /config
+COPY --from=builder /bin/app /app
+CMD ["/app"]
