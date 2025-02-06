@@ -27,9 +27,10 @@ eshop-auth
 ```
 
 ## Tech Stack
-- Backend: Go
+- Programming Language: Go
 - CI/CD: Github Actions
-- IAM: AWS Cognito
+- Framework: Gin
+- Identity and Access Management: AWS Cognito
 - Container: Docker
 
 ## API Documentation
